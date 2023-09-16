@@ -3,12 +3,10 @@ extends Camera2D
 const GROUND_SIZE = Vector2(32, 32)
 const SPRITE_DIMENSIONS = Vector2(32, 32)
 const SCALE = 2
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	place_tiles()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	recenter_tiles()
 
@@ -37,8 +35,7 @@ func recenter_tiles():
 	var children = self.get_children()
 	var index = 0
 	
-	var grid_y_offset = GROUND_SIZE.x * 7
-	print(grid_y_offset)
+	var grid_y_offset = SPRITE_DIMENSIONS.y * SCALE / 2 * GROUND_SIZE.x / 2
 	
 	for i in range(GROUND_SIZE.x):
 		for j in range(GROUND_SIZE.y):
