@@ -1,6 +1,6 @@
-extends Camera2D
+extends Node
 
-const GROUND_SIZE = Vector2(32, 32)
+const GROUND_SIZE = Vector2(128, 128)
 const SPRITE_DIMENSIONS = Vector2(32, 32)
 const SCALE = 2
 
@@ -8,7 +8,7 @@ func _ready():
 	place_tiles()
 
 func _process(delta):
-	recenter_tiles()
+	pass
 
 func get_screen_coord(world_coord: Vector2, sprite_dimensions: Vector2, scale: int):
 	var i_hat = Vector2(0.5 * sprite_dimensions.x, 0.25 * sprite_dimensions.y) * scale
