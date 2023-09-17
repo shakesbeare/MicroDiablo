@@ -5,7 +5,7 @@ const Floor = preload("res://Floor.gd")
 # World Coordinate: Coordinate for rendering objects in Godot space
 # Screen Coordinate: Coordinate relative to the viewport itself
 
-func get_screen_coord(grid_coord: Vector2):
+func get_world_coord(grid_coord: Vector2):
 	var floor = Floor.new()
 	var i_hat = Vector2(0.5 * floor.SPRITE_DIMENSIONS.x, 0.25 * floor.SPRITE_DIMENSIONS.y) * floor.SCALE
 	var j_hat = Vector2(-0.5 * floor.SPRITE_DIMENSIONS.x, 0.25 * floor.SPRITE_DIMENSIONS.y) * floor.SCALE

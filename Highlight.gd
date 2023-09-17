@@ -21,7 +21,7 @@ func _process(delta):
 	var isometry = Isometry.new()
 	var highlighted_tile = isometry.get_grid_coord(screen_to_world_point())
 	var child = get_children()[0]
-	child.position = isometry.get_screen_coord(highlighted_tile)
+	child.position = isometry.get_world_coord(highlighted_tile)
 
 func screen_to_world_point():
 	var camera = get_tree().get_root().get_node("Node2D/Camera2D")

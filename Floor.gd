@@ -28,7 +28,7 @@ func recenter_tiles():
 	for i in range(GROUND_SIZE.x):
 		for j in range(GROUND_SIZE.y):
 			var child = children[index]
-			child.position = Vector2(isometry.get_screen_coord(Vector2(i, j)))
+			child.position = Vector2(isometry.get_world_coord(Vector2(i, j)))
 			child.scale = Vector2(SCALE, SCALE)
 			index += 1
 	
