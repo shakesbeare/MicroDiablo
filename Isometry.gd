@@ -16,7 +16,25 @@ func get_screen_coord(grid_coord: Vector2):
 	return Vector2(new_x, new_y)
 
 func get_grid_coord(world_coord: Vector2):
-	pass
+	var floor = Floor.new()
+	var i_hat = Vector2(1, 0.5) * floor.SCALE
+	var j_hat = Vector2(-1, 0.5) * floor.SCALE
 	
-func get_world_coord(screen_coord: Vector2):
-	pass
+	var a = i_hat.x * 0.5 * floor.SPRITE_DIMENSIONS.x
+	var b = j_hat.x * 0.5 * floor.SPRITE_DIMENSIONS.x
+	var c = i_hat.y * 0.5 * floor.SPRITE_DIMENSIONS.y
+	var d = j_hat.y * 0.5 * floor.SPRITE_DIMENSIONS.y
+	
+	var determinant = 1 / (a * d - b * c)
+	
+	var new_a = d * determinant
+	var new_b = -b * determinant
+	var new_c = -c * determinant
+	var new_d = a * determinant
+	
+	var inverse = Vector4(new_a, new_b, new_c, new_d)
+	
+	return Vector2(
+		int(world_coord.x * inverse.x + world_coord.y * inverse.y),
+		int(world_coord.x * inverse.z + world_coord.y * inverse.w)
+	)
