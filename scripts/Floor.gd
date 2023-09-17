@@ -1,16 +1,16 @@
 extends Node
 
-const Isometry = preload("res://Isometry.gd")
+const Isometry = preload("res://scripts/Isometry.gd")
 
-const GROUND_SIZE = Vector2(64, 64)
+@export var GROUND_SIZE = Vector2(64, 64)
+@export var SCALE = 2
 const SPRITE_DIMENSIONS = Vector2(32, 32)
-const SCALE = 2
 
 func _ready():
 	place_tiles()
 
 func place_tiles():
-	var texture = load("res://cube.png")
+	var texture = load("res://assets/cube.png")
 	var dimensions = Vector2(32, 32)
 	
 	for i in range(GROUND_SIZE.x * GROUND_SIZE.y):

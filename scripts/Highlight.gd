@@ -1,15 +1,14 @@
 extends Node
 
-const Isometry = preload("res://Isometry.gd")
-const Floor = preload("res://Floor.gd")
+const Isometry = preload("res://scripts/Isometry.gd")
+const Floor = preload("res://scripts/Floor.gd")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
 	var floor = Floor.new()
 	
 	var sprite = Sprite2D.new()
-	sprite.texture = load("res://selector.png")
+	sprite.texture = load("res://assets/selector.png")
 	self.add_child(sprite)
 	
 	var child = get_children()[0]
@@ -17,7 +16,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	var isometry = Isometry.new()
 	var highlighted_tile = isometry.get_grid_coord(screen_to_world_point())
 	var child = get_children()[0]

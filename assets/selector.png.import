@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkmwuk3owggim"
-path="res://.godot/imported/cube.png-940d3d58c53164a29c251da863e8fe69.ctex"
+uid="uid://c6ls74ln4bb5e"
+path="res://.godot/imported/selector.png-0b1540b1432614e8750b69967e377448.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://cube.png"
-dest_files=["res://.godot/imported/cube.png-940d3d58c53164a29c251da863e8fe69.ctex"]
+source_file="res://assets/selector.png"
+dest_files=["res://.godot/imported/selector.png-0b1540b1432614e8750b69967e377448.ctex"]
 
 [params]
 

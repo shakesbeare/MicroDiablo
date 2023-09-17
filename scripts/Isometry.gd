@@ -1,4 +1,4 @@
-const Floor = preload("res://Floor.gd")
+const Floor = preload("res://scripts/Floor.gd")
 
 
 # Grid Coordinate: Coordinate on the isometric gridspace
