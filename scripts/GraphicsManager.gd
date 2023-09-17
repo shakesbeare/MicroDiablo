@@ -1,4 +1,4 @@
-class_name TerrainManager
+class_name GraphicsManager
 extends Node
 
 @onready var isometry = Isometry.new()
