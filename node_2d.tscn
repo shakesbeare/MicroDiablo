@@ -1,18 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://bypsyfcv0i1pr"]
+[gd_scene load_steps=3 format=3 uid="uid://bypsyfcv0i1pr"]
 
-[ext_resource type="Script" path="res://Floor.gd" id="1_orbcp"]
-[ext_resource type="Script" path="res://CameraEdgePan.gd" id="1_riea5"]
-[ext_resource type="Script" path="res://Highlight.gd" id="2_hvshx"]
+[ext_resource type="Script" path="res://scripts/CameraEdgePan.gd" id="1_pg3rw"]
+[ext_resource type="Script" path="res://scripts/GraphicsManager.gd" id="2_q7g5l"]
 
 [node name="Node2D" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [-981.0]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("1_riea5")
+script = ExtResource("1_pg3rw")
 
-[node name="Floor" type="Node" parent="."]
-script = ExtResource("1_orbcp")
-
-[node name="Highlight" type="Node" parent="."]
-script = ExtResource("2_hvshx")
-
-[node name="Input" type="Node" parent="."]
+[node name="GraphicsManager" type="Node" parent="."]
+script = ExtResource("2_q7g5l")
