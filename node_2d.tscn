@@ -8,6 +8,8 @@ metadata/_edit_horizontal_guides_ = [-981.0]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("1_pg3rw")
+camera_x_bound = 3000
+camera_y_bound = 3100
 
 [node name="GraphicsManager" type="Node" parent="."]
 script = ExtResource("2_q7g5l")
