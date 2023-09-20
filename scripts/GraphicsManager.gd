@@ -88,6 +88,7 @@ func update_cubes():
         var y_offset = grid_items.heights[i] * SPRITE_DIMENSIONS.y
         var actual_position = Vector2(expected_position.x, expected_position.y - y_offset)
         grid_items.sprites[i].position = actual_position
+
         grid_items.sprites[i].texture = dirt_on_edges(i)
 
         i = grid_items.update_queue.pop_back()
@@ -111,13 +112,22 @@ func dirt_on_edges(i: int):
     var current_pos = grid_items.positions[i]
     if grid_items.heights[i] > 0:
         if current_pos.x >= GROUND_SIZE.x - 1 or current_pos.y >= GROUND_SIZE.y - 1: 
-            return textures["grass_cube_corner"]
+            var rng = RandomNumberGenerator.new()
+            var num = rng.randi_range(0, 3)
+            var grasses = [textures["grass_cube_corner"], textures["grass_cube_corner_texture_one"], textures["grass_cube_corner_texture_two"], textures["grass_cube_corner_texture_three"]]
+            return grasses[num]
         else:
             return textures["full_grass_cube_corner"]
     elif grid_items.heights[i] == -1:
-        return textures["dirt_cube_corner"]
+        var rng = RandomNumberGenerator.new()
+        var num = rng.randi_range(0, 1)
+        var dirts = [textures["dirt_cube_corner"], textures["dirt_cube_corner_boulder"]]
+        return dirts[num]
     elif grid_items.heights[i] < -1:
         return textures["water_cube_corner"]
     else:
-        return textures["grass_cube_corner"]
+        var rng = RandomNumberGenerator.new()
+        var num = rng.randi_range(0, 3)
+        var grasses = [textures["grass_cube_corner"], textures["grass_cube_corner_texture_one"], textures["grass_cube_corner_texture_two"], textures["grass_cube_corner_texture_three"]]
+        return grasses[num]
 

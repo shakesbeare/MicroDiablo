@@ -9,6 +9,7 @@ var groups : Array[String]
 var update_queue : Array[int] # indices for cubes needing updates
 var _size : int
 
+
 func world_coordinate():
     return isometry.get_world_coord(self.position)
 
