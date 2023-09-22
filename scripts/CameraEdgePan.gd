@@ -37,6 +37,6 @@ func edge_pan(delta):
         self.position.y = -camera_y_bound
 
 func key_pan(delta):
-    self.position.x += ControlsManager.get_key_pan_normalized().x * Settings.get_key_pan_speed() * delta
-    self.position.y += ControlsManager.get_key_pan_normalized().y * Settings.get_key_pan_speed() * delta
+    self.position.x += Controls.get_key_pan_normalized().x * Settings.get_key_pan_speed() * delta
+    self.position.y += Controls.get_key_pan_normalized().y * Settings.get_key_pan_speed() * delta
     

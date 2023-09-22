@@ -1,4 +1,4 @@
-class_name ControlsManager
+class_name Controls
 extends Node
 
 static var key_pan: Vector2 = Vector2.ZERO
