@@ -45,7 +45,7 @@ func _ready():
     self.add_child(sprite, true)
 
 
-func _process(delta):
+func _process(_delta):
     update_cubes()
     highlight_under_cursor()
 
@@ -53,8 +53,6 @@ func _process(delta):
 func create_cubes():
     # create a bunch of grid_items to form the terrain out of
     # store them in self.grid_items for use later
-    var count = 0
-    
     var terrain_map = TerrainMap.new()
     self.grid_items = terrain_map.generate()
     for i in grid_items.size():
@@ -80,6 +78,17 @@ func highlight_under_cursor():
     # update cursor highlight position
     var camera = get_tree().get_root().get_node("Node2D/Camera2D")
     var highlighted_tile = isometry.get_grid_coord(isometry.screen_to_world_point(camera))
+
+    var cube_index = grid_items.positions.find(highlighted_tile)
+
     var child = get_children()[-1] # for some reason, finding it by name didn't work? find_child("CursorHighlight")
-    child.position = isometry.get_world_coord(highlighted_tile)
+    var expected_position = isometry.get_world_coord(highlighted_tile)
+
+    var y_offset = grid_items.heights[cube_index] * SPRITE_DIMENSIONS.y
+    var actual_position = Vector2(expected_position.x, expected_position.y - y_offset)
+    child.position = actual_position
+
+
+
+
 

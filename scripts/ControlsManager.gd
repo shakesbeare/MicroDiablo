@@ -16,9 +16,9 @@ func _input(event):
             else:
                 Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
             
-        handle_key_pan(event)
+        handle_key_pan()
         
-func handle_key_pan(event):
+func handle_key_pan():
     var vec = Input.get_vector("pan_left", "pan_right", "pan_up", "pan_down")
 
     key_pan = vec

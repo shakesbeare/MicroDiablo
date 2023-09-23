@@ -28,7 +28,7 @@ func world_coordinate():
 
 func _init(sprites: Array[Sprite2D], grid_coords: Array[Vector2], grid_heights: Array[float], groups: Array[String]):
     self.positions = grid_coords
-    self.heights = heights
+    self.heights = grid_heights
     self.sprites = sprites
     self.groups = groups
     self._size = 0
