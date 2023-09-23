@@ -14,14 +14,14 @@ script = ExtResource("1_pg3rw")
 camera_x_bound = 3000
 camera_y_bound = 3100
 
-[node name="Graphics" type="Node" parent="."]
-script = ExtResource("2_btsrk")
-
 [node name="Settings" type="Node" parent="."]
 script = ExtResource("3_0ai4d")
 
 [node name="Controls" type="Node" parent="."]
 script = ExtResource("4_tvunr")
+
+[node name="Graphics" type="Node" parent="."]
+script = ExtResource("2_btsrk")
 
 [node name="Player" type="Node" parent="."]
 script = ExtResource("5_o2cfs")

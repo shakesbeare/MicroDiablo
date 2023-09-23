@@ -4,7 +4,7 @@ extends Node
 static var PAN_SENSITIVITY_MULT: int = 1000
 
 static var ENABLE_EDGE_PAN: bool = true
-static var EDGE_PAN_SENSITIVITY: float = 5
+static var EDGE_PAN_SENSITIVITY: float = 10
 static var KEY_PAN_SENSITIVITIY: float = 5
 
 
