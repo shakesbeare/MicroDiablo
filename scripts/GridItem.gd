@@ -9,6 +9,8 @@ var groups : Array[String]
 var update_queue : Array[int] # indices for cubes needing updates
 var _size : int
 
+var position_map = {}
+
 enum CubeType {
     Grass,
     Dirt,
@@ -49,12 +51,28 @@ func add(sprite: Sprite2D, grid_coord: Vector2, grid_height: float, group: Strin
 
     self.update_queue.append(self._size - 1)
 
+    var drawn_position = isometry.get_world_coord(grid_coord)
+    drawn_position.y -= grid_height * GraphicsManager.SPRITE_DIMENSIONS.y
+
+    self.position_map[drawn_position] = self._size - 1
+
 func update_cube(i: int, position: Vector2, height: float, texture: CompressedTexture2D = null):
+    # clean up old map entry
+    var drawn_position_old = isometry.get_world_coord(self.positions[i])
+    drawn_position_old.y -= self.heights[i] * GraphicsManager.SPRITE_DIMENSIONS.y
+    self.position_map.erase(drawn_position_old)
+
     if texture != null:
         self.sprites[i].texture = texture
     self.positions[i] = position
     self.heights[i] = height
     self.update_queue.append(i)
+
+    # create new map entry
+    var drawn_position = isometry.get_world_coord(self.positions[i])
+    drawn_position.y -= self.heights[i] * GraphicsManager.SPRITE_DIMENSIONS.y
+    self.position_map[drawn_position] = i
+
 
 func get_cube_type(i: int) -> CubeType:
     if self.sprites[i].texture.load_path.contains("grass"):

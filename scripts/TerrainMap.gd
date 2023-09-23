@@ -44,8 +44,7 @@ func generate() -> GridItems:
     # place water
     for i in grid_items.size():
         if grid_items.heights[i] <= self.water_level:
-            grid_items.heights[i] = self.water_level
-            grid_items.sprites[i].texture = GraphicsManager.scatter_textures["water_cube_m"]
+            grid_items.update_cube(i, grid_items.positions[i], self.water_level, GraphicsManager.scatter_textures["water_cube_m"])
 
     for i in range(self.num_scatter_tries):
         var scatter_index = rng.randi_range(0, grid_items.size() - 1)

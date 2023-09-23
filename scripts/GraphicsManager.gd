@@ -78,15 +78,21 @@ func highlight_under_cursor():
     # update cursor highlight position
     var camera = get_tree().get_root().get_node("Node2D/Camera2D")
     var highlighted_tile = isometry.get_grid_coord(isometry.screen_to_world_point(camera))
-
-    var cube_index = grid_items.positions.find(highlighted_tile)
+    
+    highlighted_tile.y = clamp(highlighted_tile.y, -4, 126)
+    highlighted_tile.x = clamp(highlighted_tile.x, -4, 126)
 
     var child = get_children()[-1] # for some reason, finding it by name didn't work? find_child("CursorHighlight")
     var expected_position = isometry.get_world_coord(highlighted_tile)
 
-    var y_offset = grid_items.heights[cube_index] * SPRITE_DIMENSIONS.y
-    var actual_position = Vector2(expected_position.x, expected_position.y - y_offset)
-    child.position = actual_position
+    if expected_position not in self.grid_items.position_map.keys():
+        expected_position.y -= SPRITE_DIMENSIONS.y
+
+    if expected_position in self.grid_items.position_map.keys():
+        var pointed_index = self.grid_items.position_map[expected_position]
+
+    child.position = expected_position
+
 
 
 
