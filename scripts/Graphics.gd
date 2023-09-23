@@ -28,13 +28,22 @@ static var stair_textures = {
     "down": preload("res://assets/stairs_down.png"),
 }
 
+static var ui_textures = {
+    "selector": preload("res://assets/selector.png"),
+    "selector_selected": preload("res://assets/selector_selected.png")
+}
+
+static var debug_textures = {
+    "cube": preload("res://assets/cube.png")
+}
+
 var time_since_last_update: float = 0.0
 
 const SPRITE_DIMENSIONS = Vector2(32, 32)
 
 func _ready():
     var sprite = Sprite2D.new()
-    sprite.texture = load("res://assets/selector.png")
+    sprite.texture = ui_textures["selector"]
     sprite.name = "CursorHighlight"
     sprite.scale = Vector2(SCALE, SCALE)
 
@@ -79,4 +88,11 @@ func _on_controls_manager_mouse_point_highlight_position(position: Vector2):
     var child = get_children()[-1] # for some reason, finding it by name didn't work? find_child("CursorHighlight")
     child.position = position
 
+
+func _on_controls_move_attack(button_down: bool):
+    var child = get_children()[-1]
+    if button_down:
+        child.texture = ui_textures["selector_selected"]
+    else:
+        child.texture = ui_textures["selector"]
 

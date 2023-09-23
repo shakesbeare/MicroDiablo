@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bypsyfcv0i1pr"]
+[gd_scene load_steps=6 format=3 uid="uid://bypsyfcv0i1pr"]
 
 [ext_resource type="Script" path="res://scripts/CameraEdgePan.gd" id="1_pg3rw"]
-[ext_resource type="Script" path="res://scripts/GraphicsManager.gd" id="2_q7g5l"]
-[ext_resource type="Script" path="res://scripts/SettingsManager.gd" id="3_low5e"]
-[ext_resource type="Script" path="res://scripts/ControlsManager.gd" id="4_q0yy2"]
+[ext_resource type="Script" path="res://scripts/Graphics.gd" id="2_btsrk"]
+[ext_resource type="Script" path="res://scripts/Settings.gd" id="3_0ai4d"]
+[ext_resource type="Script" path="res://scripts/Controls.gd" id="4_tvunr"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="5_o2cfs"]
 
 [node name="Node2D" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [-981.0]
@@ -13,13 +14,19 @@ script = ExtResource("1_pg3rw")
 camera_x_bound = 3000
 camera_y_bound = 3100
 
-[node name="GraphicsManager" type="Node" parent="."]
-script = ExtResource("2_q7g5l")
+[node name="Graphics" type="Node" parent="."]
+script = ExtResource("2_btsrk")
 
-[node name="SettingsManager" type="Node" parent="."]
-script = ExtResource("3_low5e")
+[node name="Settings" type="Node" parent="."]
+script = ExtResource("3_0ai4d")
 
-[node name="ControlsManager" type="Node" parent="."]
-script = ExtResource("4_q0yy2")
+[node name="Controls" type="Node" parent="."]
+script = ExtResource("4_tvunr")
 
-[connection signal="mouse_point_highlight_position" from="ControlsManager" to="GraphicsManager" method="_on_controls_manager_mouse_point_highlight_position"]
+[node name="Player" type="Node" parent="."]
+script = ExtResource("5_o2cfs")
+
+[connection signal="mouse_point_highlight_position" from="Controls" to="Graphics" method="_on_controls_manager_mouse_point_highlight_position"]
+[connection signal="mouse_point_index" from="Controls" to="Player" method="_on_controls_mouse_point_index"]
+[connection signal="move_attack" from="Controls" to="Graphics" method="_on_controls_move_attack"]
+[connection signal="move_attack" from="Controls" to="Player" method="_on_controls_move_attack"]

@@ -3,6 +3,7 @@ extends Node
 
 signal mouse_point_index(int)
 signal mouse_point_highlight_position(Vector2)
+signal move_attack(bool)
 
 static var key_pan: Vector2 = Vector2.ZERO
 var paused: bool = false
@@ -23,6 +24,9 @@ func _input(event):
                 Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
             
         handle_key_pan()
+
+    if event.is_action("move_attack"):
+        move_attack.emit(event.is_action_pressed("move_attack"))
         
 func mouse_point():
     # update cursor highlight position
