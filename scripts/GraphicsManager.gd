@@ -7,17 +7,23 @@ static var SCALE = 2
 @onready var isometry = Isometry.new()
 @onready var cube_parent = Node2D.new()
 @onready var grid_items = GridItems.new([], [], [], [])
-static var textures = {
-    "cube": preload("res://assets/cube.png"),
+
+static var cube_textures = {
     "dirt_cube_corner": preload("res://assets/dirt_cube_corner.png"),
-    "dirt_cube_corner_boulder": preload("res://assets/dirt_cube_corner_boulder.png"),
-    "full_grass_cube_corner": preload("res://assets/full_grass_cube_corner.png"),
     "grass_cube_corner": preload("res://assets/grass_cube_corner.png"),
+    "full_grass_cube_corner": preload("res://assets/full_grass_cube_corner.png"),
+}
+
+static var scatter_textures = {
+    "dirt_cube_corner_boulder": preload("res://assets/dirt_cube_corner_boulder.png"),
     "grass_cube_corner_leaf": preload("res://assets/grass_cube_corner_leaf.png"),
-    "grass_cube_corner_texture_one": preload("res://assets/grass_cube_corner_texture_one.png"),
-    "grass_cube_corner_texture_two": preload("res://assets/grass_cube_corner_texture_two.png"),
-    "grass_cube_corner_texture_three": preload("res://assets/grass_cube_corner_texture_three.png"),
-    "water_cube_corner": preload("res://assets/water_cube_corner.png")
+    "grass_cube_flower_m": preload("res://assets/grass_cube_flower_m.png"),
+    "water_cube_m": preload("res://assets/water_cube_m.png"),
+}
+
+static var stair_textures = {
+    "up": preload("res://assets/stairs_up.png"),
+    "down": preload("res://assets/stairs_down.png"),
 }
 
 var time_since_last_update: float = 0.0
@@ -40,7 +46,6 @@ func _ready():
 func _process(delta):
     update_cubes()
     highlight_under_cursor()
-    demo_animation()
 
 
 func create_cubes():
@@ -75,11 +80,5 @@ func highlight_under_cursor():
     var highlighted_tile = isometry.get_grid_coord(isometry.screen_to_world_point(camera))
     var child = get_children()[-1] # for some reason, finding it by name didn't work? find_child("CursorHighlight")
     child.position = isometry.get_world_coord(highlighted_tile)
-
-
-func demo_animation():
-    for i in grid_items.size():
-        if grid_items.groups[i] == "upup":
-            var new_height = sin(Time.get_unix_time_from_system() * i / 500)
-            grid_items.update_cube(i, grid_items.positions[i], new_height)
+    print(self.grid_items.positions.find(highlighted_tile))
 

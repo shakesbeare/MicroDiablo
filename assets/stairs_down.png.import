@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1mnp0pj1gtak"
-path="res://.godot/imported/grass_cube_corner_texture_two.png-f1bcf63ee73b455b1f1153332b70b53a.ctex"
+uid="uid://iyed7ghus31w"
+path="res://.godot/imported/stairs_down.png-1a922fe2a5a8097ca910e035cfe26938.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/grass_cube_corner_texture_two.png"
-dest_files=["res://.godot/imported/grass_cube_corner_texture_two.png-f1bcf63ee73b455b1f1153332b70b53a.ctex"]
+source_file="res://assets/stairs_down.png"
+dest_files=["res://.godot/imported/stairs_down.png-1a922fe2a5a8097ca910e035cfe26938.ctex"]
 
 [params]
 

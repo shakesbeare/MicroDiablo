@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bypsyfcv0i1pr"]
+[gd_scene load_steps=5 format=3 uid="uid://bypsyfcv0i1pr"]
 
 [ext_resource type="Script" path="res://scripts/CameraEdgePan.gd" id="1_pg3rw"]
 [ext_resource type="Script" path="res://scripts/GraphicsManager.gd" id="2_q7g5l"]
 [ext_resource type="Script" path="res://scripts/SettingsManager.gd" id="3_low5e"]
 [ext_resource type="Script" path="res://scripts/ControlsManager.gd" id="4_q0yy2"]
-[ext_resource type="Script" path="res://scripts/TerrainManager.gd" id="5_pb51w"]
 
 [node name="Node2D" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [-981.0]
@@ -22,6 +21,3 @@ script = ExtResource("3_low5e")
 
 [node name="ControlsManager" type="Node" parent="."]
 script = ExtResource("4_q0yy2")
-
-[node name="TerrainManager" type="Node" parent="."]
-script = ExtResource("5_pb51w")

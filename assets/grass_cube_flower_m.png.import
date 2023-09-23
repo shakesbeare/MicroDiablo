@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy522ufhojj6m"
-path="res://.godot/imported/grass_cube_corner_texture_three.png-3c09e77126aa0efa7ee79f314eaeee0f.ctex"
+uid="uid://qkq0nka1k3fx"
+path="res://.godot/imported/grass_cube_flower_m.png-664c69f3fe30d81c20d211c74897b710.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/grass_cube_corner_texture_three.png"
-dest_files=["res://.godot/imported/grass_cube_corner_texture_three.png-3c09e77126aa0efa7ee79f314eaeee0f.ctex"]
+source_file="res://assets/grass_cube_flower_m.png"
+dest_files=["res://.godot/imported/grass_cube_flower_m.png-664c69f3fe30d81c20d211c74897b710.ctex"]
 
 [params]
 
