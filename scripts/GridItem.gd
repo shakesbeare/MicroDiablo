@@ -1,7 +1,5 @@
 class_name GridItems
 
-var isometry = Isometry.new()
-
 var positions : Array[Vector2]
 var heights : Array[float]
 var sprites : Array[Sprite2D]
@@ -26,7 +24,7 @@ enum CubePassability {
 }
 
 func world_coordinate():
-    return isometry.get_world_coord(self.position)
+    return Isometry.get_world_coord(self.position)
 
 func _init(sprites: Array[Sprite2D], grid_coords: Array[Vector2], grid_heights: Array[float], groups: Array[String]):
     self.positions = grid_coords
@@ -51,15 +49,15 @@ func add(sprite: Sprite2D, grid_coord: Vector2, grid_height: float, group: Strin
 
     self.update_queue.append(self._size - 1)
 
-    var drawn_position = isometry.get_world_coord(grid_coord)
-    drawn_position.y -= grid_height * GraphicsManager.SPRITE_DIMENSIONS.y
+    var drawn_position = Isometry.get_world_coord(grid_coord)
+    drawn_position.y -= grid_height * Graphics.SPRITE_DIMENSIONS.y
 
     self.position_map[drawn_position] = self._size - 1
 
 func update_cube(i: int, position: Vector2, height: float, texture: CompressedTexture2D = null):
     # clean up old map entry
-    var drawn_position_old = isometry.get_world_coord(self.positions[i])
-    drawn_position_old.y -= self.heights[i] * GraphicsManager.SPRITE_DIMENSIONS.y
+    var drawn_position_old = Isometry.get_world_coord(self.positions[i])
+    drawn_position_old.y -= self.heights[i] * Graphics.SPRITE_DIMENSIONS.y
     self.position_map.erase(drawn_position_old)
 
     if texture != null:
@@ -69,8 +67,8 @@ func update_cube(i: int, position: Vector2, height: float, texture: CompressedTe
     self.update_queue.append(i)
 
     # create new map entry
-    var drawn_position = isometry.get_world_coord(self.positions[i])
-    drawn_position.y -= self.heights[i] * GraphicsManager.SPRITE_DIMENSIONS.y
+    var drawn_position = Isometry.get_world_coord(self.positions[i])
+    drawn_position.y -= self.heights[i] * Graphics.SPRITE_DIMENSIONS.y
     self.position_map[drawn_position] = i
 
 
@@ -99,13 +97,13 @@ func get_cube_neighbors(i: int) -> Array[int]:
     return [
         i - 1,
         i + 1,
-        i - GraphicsManager.GROUND_SIZE.x,
-        i + GraphicsManager.GROUND_SIZE.x
+        i - Graphics.GROUND_SIZE.x,
+        i + Graphics.GROUND_SIZE.x
     ]
 
 func get_upper_neighbors(i: int) -> Array[int]:
     """Returns the 3 neighbors of the cube at index i that are above it"""
     return [
         i - 1,
-        i - GraphicsManager.GROUND_SIZE.x ,
+        i - Graphics.GROUND_SIZE.x ,
     ]

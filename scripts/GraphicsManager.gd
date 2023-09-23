@@ -1,12 +1,12 @@
-class_name GraphicsManager
+class_name Graphics
 extends Node
 
 static var GROUND_SIZE = Vector2(128, 128)
 static var SCALE = 2
 
-@onready var isometry = Isometry.new()
+static var grid_items = GridItems.new([], [], [], [])
+
 @onready var cube_parent = Node2D.new()
-@onready var grid_items = GridItems.new([], [], [], [])
 
 static var cube_textures = {
     "dirt_cube_corner": preload("res://assets/dirt_cube_corner.png"),
@@ -47,7 +47,6 @@ func _ready():
 
 func _process(_delta):
     update_cubes()
-    highlight_under_cursor()
 
 
 func create_cubes():
@@ -66,7 +65,7 @@ func update_cubes():
     # note: to animate grid_items, update their internal stored position
     var i = grid_items.update_queue.pop_back()
     while i != null:
-        var expected_position = isometry.get_world_coord(grid_items.positions[i])
+        var expected_position = Isometry.get_world_coord(grid_items.positions[i])
         var y_offset = grid_items.heights[i] * SPRITE_DIMENSIONS.y
         var actual_position = Vector2(expected_position.x, expected_position.y - y_offset)
         grid_items.sprites[i].position = actual_position
@@ -74,27 +73,10 @@ func update_cubes():
         i = grid_items.update_queue.pop_back()
 
 
-func highlight_under_cursor():
-    # update cursor highlight position
+# subscribed to ControlsManager/mouse_point_highlight_position
+func _on_controls_manager_mouse_point_highlight_position(position: Vector2):
     var camera = get_tree().get_root().get_node("Node2D/Camera2D")
-    var highlighted_tile = isometry.get_grid_coord(isometry.screen_to_world_point(camera))
-    
-    highlighted_tile.y = clamp(highlighted_tile.y, -4, 126)
-    highlighted_tile.x = clamp(highlighted_tile.x, -4, 126)
-
     var child = get_children()[-1] # for some reason, finding it by name didn't work? find_child("CursorHighlight")
-    var expected_position = isometry.get_world_coord(highlighted_tile)
-
-    if expected_position not in self.grid_items.position_map.keys():
-        expected_position.y -= SPRITE_DIMENSIONS.y
-
-    if expected_position in self.grid_items.position_map.keys():
-        var pointed_index = self.grid_items.position_map[expected_position]
-
-    child.position = expected_position
-
-
-
-
+    child.position = position
 
 

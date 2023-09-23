@@ -1,17 +1,11 @@
 class_name Isometry
 extends Node2D
 
-
-var graphics_manager = GraphicsManager.new()
-
 # Grid Coordinate: Coordinate on the isometric gridspace
 # World Coordinate: Coordinate for rendering objects in Godot space
 # Screen Coordinate: Coordinate relative to the viewport itself
 
-func _init():
-    pass
-
-func screen_to_world_point(camera: Camera2D):
+static func screen_to_world_point(camera: Camera2D):
     var viewport = camera.get_viewport_rect().size
     var mouse_pos = camera.get_viewport().get_mouse_position()
     mouse_pos.y += 16
@@ -21,27 +15,27 @@ func screen_to_world_point(camera: Camera2D):
     
     return Vector2(camera.position.x + x_offset, camera.position.y + y_offset)
 
-func get_world_coord(grid_coord: Vector2):
+static func get_world_coord(grid_coord: Vector2):
     # https://www.youtube.com/watch?v=04oQ2jOUjkU
 
-    var i_hat = Vector2(0.5 * graphics_manager.SPRITE_DIMENSIONS.x, 0.25 * graphics_manager.SPRITE_DIMENSIONS.y) * graphics_manager.SCALE
-    var j_hat = Vector2(-0.5 * graphics_manager.SPRITE_DIMENSIONS.x, 0.25 * graphics_manager.SPRITE_DIMENSIONS.y) * graphics_manager.SCALE
+    var i_hat = Vector2(0.5 * Graphics.SPRITE_DIMENSIONS.x, 0.25 * Graphics.SPRITE_DIMENSIONS.y) * Graphics.SCALE
+    var j_hat = Vector2(-0.5 * Graphics.SPRITE_DIMENSIONS.x, 0.25 * Graphics.SPRITE_DIMENSIONS.y) * Graphics.SCALE
     
     var new_x = grid_coord.x * i_hat.x + grid_coord.y * j_hat.x
     var new_y = grid_coord.x * i_hat.y + grid_coord.y * j_hat.y
     
     return Vector2(new_x, new_y)
 
-func get_grid_coord(world_coord: Vector2):
+static func get_grid_coord(world_coord: Vector2):
     # https://www.youtube.com/watch?v=04oQ2jOUjkU
 
-    var i_hat = Vector2(1, 0.5) * graphics_manager.SCALE
-    var j_hat = Vector2(-1, 0.5) * graphics_manager.SCALE
+    var i_hat = Vector2(1, 0.5) * Graphics.SCALE
+    var j_hat = Vector2(-1, 0.5) * Graphics.SCALE
     
-    var a = i_hat.x * 0.5 * graphics_manager.SPRITE_DIMENSIONS.x
-    var b = j_hat.x * 0.5 * graphics_manager.SPRITE_DIMENSIONS.x
-    var c = i_hat.y * 0.5 * graphics_manager.SPRITE_DIMENSIONS.y
-    var d = j_hat.y * 0.5 * graphics_manager.SPRITE_DIMENSIONS.y
+    var a = i_hat.x * 0.5 * Graphics.SPRITE_DIMENSIONS.x
+    var b = j_hat.x * 0.5 * Graphics.SPRITE_DIMENSIONS.x
+    var c = i_hat.y * 0.5 * Graphics.SPRITE_DIMENSIONS.y
+    var d = j_hat.y * 0.5 * Graphics.SPRITE_DIMENSIONS.y
     
     var determinant = 1 / (a * d - b * c)
     
