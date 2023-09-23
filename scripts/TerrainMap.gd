@@ -60,18 +60,27 @@ func generate() -> GridItems:
 
     # add shadows
     for i in grid_items.size():
-        for j in grid_items.get_upper_neighbors(i):
-            if grid_items.heights[j] < grid_items.heights[i]:
-                for k in grid_items.get_upper_neighbors(j):
-                    var image = grid_items.sprites[k].texture.get_image()
-                    for x in image.get_width():
-                        for y in image.get_height():
-                            var p = image.get_pixel(x, y)
-                            if p.a > 0:
-                                image.set_pixel(x, y, Color(p.r * self.shadow_ratio, p.g * self.shadow_ratio, p.b * self.shadow_ratio))
+        if grid_items.get_cube_type(i) in [GridItems.CubeType.Water, GridItems.CubeType.StairsUp, GridItems.CubeType.StairsDown]:
+            continue
+        var upper_neighbors = grid_items.get_upper_neighbors(i)
+        if grid_items.heights[upper_neighbors[0]] < grid_items.heights[i]:
+            # left upper neighbor is lower, draw left border
 
-                    var shaded = ImageTexture.create_from_image(image)
-                    grid_items.sprites[k].texture = shaded
+            var sprite = Sprite2D.new()
+            sprite.texture = GraphicsManager.scatter_textures["cliff_border_r"]
+            sprite.name = "Border"
+            sprite.scale = Vector2(GraphicsManager.SCALE, GraphicsManager.SCALE)
+
+            grid_items.add(sprite, grid_items.positions[i], grid_items.heights[i], "Border")
+        if grid_items.heights[upper_neighbors[1]] < grid_items.heights[i]:
+            # right upper neighbor is lower, draw right border
+
+            var sprite = Sprite2D.new()
+            sprite.texture = GraphicsManager.scatter_textures["cliff_border_l"]
+            sprite.name = "Border"
+            sprite.scale = Vector2(GraphicsManager.SCALE, GraphicsManager.SCALE)
+
+            grid_items.add(sprite, grid_items.positions[i], grid_items.heights[i], "Border")
 
     return grid_items
 

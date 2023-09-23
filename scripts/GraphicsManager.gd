@@ -19,6 +19,8 @@ static var scatter_textures = {
     "grass_cube_corner_leaf": preload("res://assets/grass_cube_corner_leaf.png"),
     "grass_cube_flower_m": preload("res://assets/grass_cube_flower_m.png"),
     "water_cube_m": preload("res://assets/water_cube_m.png"),
+    "cliff_border_r": preload("res://assets/cliff_border_r.png"),
+    "cliff_border_l": preload("res://assets/cliff_border_l.png"),
 }
 
 static var stair_textures = {

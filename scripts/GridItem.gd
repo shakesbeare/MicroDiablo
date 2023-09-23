@@ -88,5 +88,6 @@ func get_cube_neighbors(i: int) -> Array[int]:
 func get_upper_neighbors(i: int) -> Array[int]:
     """Returns the 3 neighbors of the cube at index i that are above it"""
     return [
-        i - GraphicsManager.GROUND_SIZE.x - 1,
+        i - 1,
+        i - GraphicsManager.GROUND_SIZE.x ,
     ]
