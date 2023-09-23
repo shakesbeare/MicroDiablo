@@ -80,5 +80,4 @@ func highlight_under_cursor():
     var highlighted_tile = isometry.get_grid_coord(isometry.screen_to_world_point(camera))
     var child = get_children()[-1] # for some reason, finding it by name didn't work? find_child("CursorHighlight")
     child.position = isometry.get_world_coord(highlighted_tile)
-    print(self.grid_items.positions.find(highlighted_tile))
 
