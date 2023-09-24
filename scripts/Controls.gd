@@ -39,11 +39,11 @@ func mouse_point():
     var expected_position = Isometry.get_world_coord(highlighted_tile)
     var pointed_index = 0
 
-    if expected_position not in Graphics.grid_items.position_map.keys():
+    if expected_position not in Graphics.grid_items.world_position_map.keys():
         expected_position.y -= Graphics.SPRITE_DIMENSIONS.y
 
-    if expected_position in Graphics.grid_items.position_map.keys():
-        pointed_index = Graphics.grid_items.position_map[expected_position]
+    if expected_position in Graphics.grid_items.world_position_map.keys():
+        pointed_index = Graphics.grid_items.world_position_map[expected_position]
 
     mouse_point_index.emit(pointed_index)
     mouse_point_highlight_position.emit(expected_position)

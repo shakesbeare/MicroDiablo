@@ -1,5 +1,7 @@
 class_name GridItems
 
+static var instance: GridItems
+
 var positions : Array[Vector2]
 var heights : Array[float]
 var sprites : Array[Sprite2D]
@@ -7,7 +9,8 @@ var groups : Array[String]
 var update_queue : Array[int] # indices for cubes needing updates
 var _size : int
 
-var position_map = {}
+var world_position_map = {}
+var grid_position_map = {}
 
 enum CubeType {
     Grass,
@@ -15,6 +18,7 @@ enum CubeType {
     Water,
     StairsUp,
     StairsDown,
+    Border,
     NaC,
 }
 
@@ -26,11 +30,18 @@ enum CubePassability {
 func world_coordinate():
     return Isometry.get_world_coord(self.position)
 
-func _init(sprites: Array[Sprite2D], grid_coords: Array[Vector2], grid_heights: Array[float], groups: Array[String]):
-    self.positions = grid_coords
-    self.heights = grid_heights
-    self.sprites = sprites
-    self.groups = groups
+static func init() -> GridItems:
+    if instance:
+        return instance
+    else:
+        instance = GridItems.new()
+        return instance
+
+func _init():
+    self.positions = []
+    self.heights = []
+    self.sprites = []
+    self.groups = []
     self._size = 0
 
 func size():
@@ -52,13 +63,15 @@ func add(sprite: Sprite2D, grid_coord: Vector2, grid_height: float, group: Strin
     var drawn_position = Isometry.get_world_coord(grid_coord)
     drawn_position.y -= grid_height * Graphics.SPRITE_DIMENSIONS.y
 
-    self.position_map[drawn_position] = self._size - 1
+    self.world_position_map[drawn_position] = self._size - 1
+    self.grid_position_map[grid_coord] = self._size - 1
 
 func update_cube(i: int, position: Vector2, height: float, texture: CompressedTexture2D = null):
     # clean up old map entry
     var drawn_position_old = Isometry.get_world_coord(self.positions[i])
     drawn_position_old.y -= self.heights[i] * Graphics.SPRITE_DIMENSIONS.y
-    self.position_map.erase(drawn_position_old)
+    self.world_position_map.erase(drawn_position_old)
+    self.grid_position_map.erase(self.positions[i])
 
     if texture != null:
         self.sprites[i].texture = texture
@@ -69,7 +82,8 @@ func update_cube(i: int, position: Vector2, height: float, texture: CompressedTe
     # create new map entry
     var drawn_position = Isometry.get_world_coord(self.positions[i])
     drawn_position.y -= self.heights[i] * Graphics.SPRITE_DIMENSIONS.y
-    self.position_map[drawn_position] = i
+    self.world_position_map[drawn_position] = i
+    self.grid_position_map[self.positions[i]] = i
 
 
 func get_cube_type(i: int) -> CubeType:
@@ -83,14 +97,23 @@ func get_cube_type(i: int) -> CubeType:
         return CubeType.StairsUp
     elif self.sprites[i].texture.load_path.contains("stairs_down"):
         return CubeType.StairsDown
+    elif self.sprites[i].texture.load_path.contains("border"):
+        return CubeType.Border
     else:
         return CubeType.NaC
 
 func get_cube_passability(i: int) -> CubePassability:
-    if self.get_cube_type(i) == CubeType.Water or CubeType.NaC:
+    if self.get_cube_type(i) == CubeType.Water or self.get_cube_type(i) == CubeType.NaC:
         return CubePassability.Impassable
     else:
         return CubePassability.Passable
+
+func get_cube_position_from_world_position(world_coord: Vector2) -> Vector2:
+    return self.positions[self.world_position_map[world_coord]]
+
+func is_cube_at_grid_pos_passable(grid_coord: Vector2) -> bool:
+    var i = self.grid_position_map[grid_coord]
+    return self.get_cube_passability(i) == CubePassability.Passable
 
 func get_cube_neighbors(i: int) -> Array[int]:
     """Returns the 4 directly adjacent neighbors of the cube at index i"""

@@ -22,7 +22,7 @@ func generate() -> GridItems:
 
     # generate the noise texture
     self.noise_image = self.noise.get_image(Graphics.GROUND_SIZE.x, Graphics.GROUND_SIZE.y)
-    var grid_items = GridItems.new([], [], [], [])
+    var grid_items = GridItems.init()
 
     # create bases for each cube
     for i in self.noise_image.get_width():

@@ -1,16 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://bypsyfcv0i1pr"]
+[gd_scene load_steps=7 format=3 uid="uid://bypsyfcv0i1pr"]
 
-[ext_resource type="Script" path="res://scripts/CameraEdgePan.gd" id="1_pg3rw"]
-[ext_resource type="Script" path="res://scripts/Graphics.gd" id="2_btsrk"]
+[ext_resource type="Script" path="res://scripts/Camera.gd" id="1_87yxm"]
 [ext_resource type="Script" path="res://scripts/Settings.gd" id="3_0ai4d"]
+[ext_resource type="Script" path="res://scripts/paths.gd" id="4_idv5t"]
 [ext_resource type="Script" path="res://scripts/Controls.gd" id="4_tvunr"]
+[ext_resource type="Script" path="res://scripts/graphics/Graphics.gd" id="4_x2pg5"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="5_o2cfs"]
 
 [node name="Node2D" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [-981.0]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("1_pg3rw")
+script = ExtResource("1_87yxm")
 camera_x_bound = 3000
 camera_y_bound = 3100
 
@@ -20,8 +21,11 @@ script = ExtResource("3_0ai4d")
 [node name="Controls" type="Node" parent="."]
 script = ExtResource("4_tvunr")
 
+[node name="Pathfinding" type="Node" parent="."]
+script = ExtResource("4_idv5t")
+
 [node name="Graphics" type="Node" parent="."]
-script = ExtResource("2_btsrk")
+script = ExtResource("4_x2pg5")
 
 [node name="Player" type="Node" parent="."]
 script = ExtResource("5_o2cfs")

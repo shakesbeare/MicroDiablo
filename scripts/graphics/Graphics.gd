@@ -4,7 +4,7 @@ extends Node
 static var GROUND_SIZE = Vector2(128, 128)
 static var SCALE = 2
 
-static var grid_items = GridItems.new([], [], [], [])
+static var grid_items = GridItems.init()
 
 @onready var cube_parent = Node2D.new()
 
@@ -21,6 +21,10 @@ static var scatter_textures = {
     "water_cube_m": preload("res://assets/water_cube_m.png"),
     "cliff_border_r": preload("res://assets/cliff_border_r.png"),
     "cliff_border_l": preload("res://assets/cliff_border_l.png"),
+}
+
+static var entity_textures = {
+    "guydude": preload("res://assets/guydude.png")
 }
 
 static var stair_textures = {
