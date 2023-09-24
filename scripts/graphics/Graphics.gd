@@ -1,12 +1,10 @@
 class_name Graphics
 extends Node
 
+
+const SPRITE_DIMENSIONS = Vector2(32, 32)
 static var GROUND_SIZE = Vector2(128, 128)
 static var SCALE = 2
-
-static var grid_items = GridItems.init()
-
-@onready var cube_parent = Node2D.new()
 
 static var cube_textures = {
     "dirt_cube_corner": preload("res://assets/dirt_cube_corner.png"),
@@ -41,9 +39,13 @@ static var debug_textures = {
     "cube": preload("res://assets/cube.png")
 }
 
-var time_since_last_update: float = 0.0
+static var grid_items = GridItems.init()
 
-const SPRITE_DIMENSIONS = Vector2(32, 32)
+var cube_parent = Node2D.new()
+var time_since_last_update: float = 0.0
+var selector: Sprite2D
+
+static var box: BoxSelect
 
 func _ready():
     var sprite = Sprite2D.new()
@@ -54,12 +56,18 @@ func _ready():
     self.add_child(cube_parent)
     create_cubes()
 
+
+    box = BoxSelect.new(Vector2.ZERO)
+    self.add_child(box)
+    box.hide()
+
     # note that the *bottom* of the node tree is the sprite that's drawn last and therefore the topmost object
     self.add_child(sprite, true)
-
+    selector = get_children()[-1]
 
 func _process(_delta):
     update_cubes()
+    update_box()
 
 
 func create_cubes():
@@ -86,17 +94,44 @@ func update_cubes():
         i = grid_items.update_queue.pop_back()
 
 
-# subscribed to ControlsManager/mouse_point_highlight_position
-func _on_controls_manager_mouse_point_highlight_position(position: Vector2):
+func update_box():
     var camera = get_tree().get_root().get_node("Node2D/Camera2D")
-    var child = get_children()[-1] # for some reason, finding it by name didn't work? find_child("CursorHighlight")
-    child.position = position
+    box.update_end_pos(Isometry.screen_to_world_point(camera))
+    var entities = Entities.get_entities_in_rect(box.start_pos, box.end_pos)
+
+    if box.is_visible():
+        for entity in entities.in:
+            entity.sprite.texture = cube_textures["full_grass_cube_corner"]
+
+        for entity in entities.not:
+            entity.sprite.texture = debug_textures["cube"] 
+    else:
+        for entity in Entities.list:
+            entity.sprite.texture = debug_textures["cube"]
+
+func _on_controls_manager_mouse_point_highlight_position(position: Vector2):
+    selector.position = position
 
 
 func _on_controls_move_attack(button_down: bool):
-    var child = get_children()[-1]
     if button_down:
-        child.texture = ui_textures["selector_selected"]
+        selector.texture = ui_textures["selector_selected"]
     else:
-        child.texture = ui_textures["selector"]
+        selector.texture = ui_textures["selector"]
+
+
+func _on_controls_select(button_down: bool):
+    if button_down:
+        selector.hide()
+        var camera = get_tree().get_root().get_node("Node2D/Camera2D")
+        box.update_start_pos(Isometry.screen_to_world_point(camera))
+        box.show()
+    else:
+        selector.show()
+        box.hide()
+        box.update_start_pos(Vector2.ZERO)
+        box.update_end_pos(Vector2.ZERO)
+
+    
+
 

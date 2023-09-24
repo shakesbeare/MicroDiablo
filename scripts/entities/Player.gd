@@ -4,23 +4,19 @@ extends Node
 var player_entity: PlayerEntity
 var pointed_cube: int
 
+
 func _ready():
     self.player_entity = PlayerEntity.new()
     self.add_child(self.player_entity)
     self.player_entity.add_child(self.player_entity.sprite)
+
 
 func _process(delta):
     self.player_entity.move(delta)
 
 
 class PlayerEntity:
-    extends Node2D
-
-    var sprite: Sprite2D
-
-
-    var grid_position: Vector2
-    var grid_height: float
+    extends Entities.Entity
 
     var move_targets: Array[Vector2]
     var target_heights: Array[float]
@@ -29,6 +25,8 @@ class PlayerEntity:
 
 
     func _init():
+        self.tags.append_array(["Player", "Controllable"])
+
         self.grid_position = Vector2.ZERO
         self.grid_height = Graphics.grid_items.heights[0]
 
@@ -36,11 +34,14 @@ class PlayerEntity:
         var y_offset = self.grid_height * Graphics.SPRITE_DIMENSIONS.y
         self.position = expected_position - Vector2(0, y_offset)
 
-        var sprite = Sprite2D.new()
-        sprite.texture = Graphics.debug_textures["cube"]
-        sprite.name = "Player"
-        sprite.scale = Vector2(Graphics.SCALE, Graphics.SCALE)
-        self.sprite = sprite
+        var sprite_ = Sprite2D.new()
+        sprite_.texture = Graphics.debug_textures["cube"]
+        sprite_.name = "Player"
+        sprite_.scale = Vector2(Graphics.SCALE, Graphics.SCALE)
+        self.sprite = sprite_
+
+        Entities.add(self)
+
 
     func move(delta):
         if self.time_since_last_move >= 1.0 / self.movement_speed:
@@ -53,10 +54,12 @@ class PlayerEntity:
         else:
             self.time_since_last_move += delta
 
+
     func update_position():
         var expected_position = Isometry.get_world_coord(self.grid_position)
         var y_offset = self.grid_height * Graphics.SPRITE_DIMENSIONS.y
         self.position = expected_position - Vector2(0, y_offset)
+
 
 func _on_controls_mouse_point_index(i: int):
     self.pointed_cube = i
@@ -72,4 +75,21 @@ func _on_controls_move_attack(button_down: bool):
             var cube_index = Graphics.grid_items.grid_position_map[item]
             self.player_entity.move_targets.push_front(item)
             self.player_entity.target_heights.push_front(Graphics.grid_items.heights[cube_index] + 1)
+
+
+
+func _on_controls_ability_1(button_down: bool):
+    pass
+
+
+func _on_controls_ability_2(button_down: bool):
+    pass
+
+
+func _on_controls_ability_3(button_down: bool):
+    pass
+
+
+func _on_controls_ability_4(button_down: bool):
+    pass
 

@@ -3,7 +3,15 @@ extends Node
 
 signal mouse_point_index(int)
 signal mouse_point_highlight_position(Vector2)
+
+signal select(bool)
+
 signal move_attack(bool)
+
+signal ability_1(bool)
+signal ability_2(bool)
+signal ability_3(bool)
+signal ability_4(bool)
 
 static var key_pan: Vector2 = Vector2.ZERO
 var paused: bool = false
@@ -15,6 +23,7 @@ func _process(_delta):
     mouse_point()
 
 func _input(event):
+    # Keyboard Inputs
     if event is InputEventKey:
         if event.is_action_pressed("pause"):
             self.paused = !paused
@@ -22,11 +31,25 @@ func _input(event):
                 Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
             else:
                 Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-            
-        handle_key_pan()
 
+        elif event.is_action("pan_left") or event.is_action("pan_right") or event.is_action("pan_up") or event.is_action("pan_down"):    
+            handle_key_pan()
+
+        elif event.is_action("ability_1"):
+            ability_1.emit(event.is_action_pressed("ability_1"))
+        elif event.is_action("ability_2"):
+            ability_2.emit(event.is_action_pressed("ability_2"))
+        elif event.is_action("ability_3"):
+            ability_3.emit(event.is_action_pressed("ability_3"))
+        elif event.is_action("ability_4"):
+            ability_4.emit(event.is_action_pressed("ability_4"))
+
+    # Other Inputs
     if event.is_action("move_attack"):
         move_attack.emit(event.is_action_pressed("move_attack"))
+    elif event.is_action("select"):
+        select.emit(event.is_action_pressed("select"))
+
         
 func mouse_point():
     # update cursor highlight position

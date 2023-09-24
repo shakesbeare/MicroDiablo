@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bypsyfcv0i1pr"]
+[gd_scene load_steps=8 format=3 uid="uid://bypsyfcv0i1pr"]
 
 [ext_resource type="Script" path="res://scripts/Camera.gd" id="1_87yxm"]
 [ext_resource type="Script" path="res://scripts/Settings.gd" id="3_0ai4d"]
 [ext_resource type="Script" path="res://scripts/paths.gd" id="4_idv5t"]
 [ext_resource type="Script" path="res://scripts/Controls.gd" id="4_tvunr"]
 [ext_resource type="Script" path="res://scripts/graphics/Graphics.gd" id="4_x2pg5"]
-[ext_resource type="Script" path="res://scripts/Player.gd" id="5_o2cfs"]
+[ext_resource type="Script" path="res://scripts/entities/Entities.gd" id="5_k6jwh"]
+[ext_resource type="Script" path="res://scripts/entities/Player.gd" id="7_vg34m"]
 
 [node name="Node2D" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [-981.0]
@@ -24,13 +25,21 @@ script = ExtResource("4_tvunr")
 [node name="Pathfinding" type="Node" parent="."]
 script = ExtResource("4_idv5t")
 
+[node name="Entities" type="Node" parent="."]
+script = ExtResource("5_k6jwh")
+
 [node name="Graphics" type="Node" parent="."]
 script = ExtResource("4_x2pg5")
 
 [node name="Player" type="Node" parent="."]
-script = ExtResource("5_o2cfs")
+script = ExtResource("7_vg34m")
 
+[connection signal="ability_1" from="Controls" to="Player" method="_on_controls_ability_1"]
+[connection signal="ability_2" from="Controls" to="Player" method="_on_controls_ability_2"]
+[connection signal="ability_3" from="Controls" to="Player" method="_on_controls_ability_3"]
+[connection signal="ability_4" from="Controls" to="Player" method="_on_controls_ability_4"]
 [connection signal="mouse_point_highlight_position" from="Controls" to="Graphics" method="_on_controls_manager_mouse_point_highlight_position"]
 [connection signal="mouse_point_index" from="Controls" to="Player" method="_on_controls_mouse_point_index"]
 [connection signal="move_attack" from="Controls" to="Graphics" method="_on_controls_move_attack"]
 [connection signal="move_attack" from="Controls" to="Player" method="_on_controls_move_attack"]
+[connection signal="select" from="Controls" to="Graphics" method="_on_controls_select"]
