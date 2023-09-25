@@ -7,6 +7,7 @@ var heights : Array[float]
 var sprites : Array[Sprite2D]
 var groups : Array[String]
 var update_queue : Array[int] # indices for cubes needing updates
+var decorative : Array[bool]
 var _size : int
 
 var world_position_map = {}
@@ -50,28 +51,32 @@ func size():
 func queue_size():
     return self.update_queue.size()
 
-func add(sprite: Sprite2D, grid_coord: Vector2, grid_height: float, group: String):
+func add(sprite: Sprite2D, grid_coord: Vector2, grid_height: float, group: String, decorative: bool = false):
     self._size += 1
 
     self.sprites.append(sprite)
     self.positions.append(grid_coord)
     self.heights.append(grid_height)
     self.groups.append(group)
+    self.decorative.append(decorative)
 
     self.update_queue.append(self._size - 1)
 
     var drawn_position = Isometry.get_world_coord(grid_coord)
     drawn_position.y -= grid_height * Graphics.SPRITE_DIMENSIONS.y
 
-    self.world_position_map[drawn_position] = self._size - 1
-    self.grid_position_map[grid_coord] = self._size - 1
+    if !decorative:
+        self.world_position_map[drawn_position] = self._size - 1
+        self.grid_position_map[grid_coord] = self._size - 1
 
 func update_cube(i: int, position: Vector2, height: float, texture: CompressedTexture2D = null):
     # clean up old map entry
-    var drawn_position_old = Isometry.get_world_coord(self.positions[i])
-    drawn_position_old.y -= self.heights[i] * Graphics.SPRITE_DIMENSIONS.y
-    self.world_position_map.erase(drawn_position_old)
-    self.grid_position_map.erase(self.positions[i])
+    if !self.decorative[i]:
+        var drawn_position_old = Isometry.get_world_coord(self.positions[i])
+        drawn_position_old.y -= self.heights[i] * Graphics.SPRITE_DIMENSIONS.y
+
+        self.world_position_map.erase(drawn_position_old)
+        self.grid_position_map.erase(self.positions[i])
 
     if texture != null:
         self.sprites[i].texture = texture
@@ -82,9 +87,16 @@ func update_cube(i: int, position: Vector2, height: float, texture: CompressedTe
     # create new map entry
     var drawn_position = Isometry.get_world_coord(self.positions[i])
     drawn_position.y -= self.heights[i] * Graphics.SPRITE_DIMENSIONS.y
-    self.world_position_map[drawn_position] = i
-    self.grid_position_map[self.positions[i]] = i
+    
+    if !self.decorative[i]:
+        self.world_position_map[drawn_position] = i
+        self.grid_position_map[self.positions[i]] = i
 
+    self.sprites[i].z_index = get_sort_priority(i)
+
+func update_all():
+    for i in self._size:
+        self.update_cube(i, self.positions[i], self.heights[i])
 
 func get_cube_type(i: int) -> CubeType:
     if self.sprites[i].texture.load_path.contains("grass"):
@@ -101,6 +113,11 @@ func get_cube_type(i: int) -> CubeType:
         return CubeType.Border
     else:
         return CubeType.NaC
+
+
+func get_sort_priority(i: int):
+    return self.heights[i]
+
 
 func get_cube_passability(i: int) -> CubePassability:
     if self.get_cube_type(i) == CubeType.Water or self.get_cube_type(i) == CubeType.NaC:

@@ -43,3 +43,4 @@ script = ExtResource("7_vg34m")
 [connection signal="move_attack" from="Controls" to="Graphics" method="_on_controls_move_attack"]
 [connection signal="move_attack" from="Controls" to="Player" method="_on_controls_move_attack"]
 [connection signal="select" from="Controls" to="Graphics" method="_on_controls_select"]
+[connection signal="ready" from="Player" to="Graphics" method="_on_player_ready"]

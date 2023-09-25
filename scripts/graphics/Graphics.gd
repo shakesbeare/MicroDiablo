@@ -36,34 +36,46 @@ static var ui_textures = {
 }
 
 static var debug_textures = {
-    "cube": preload("res://assets/cube.png")
+    "cube": preload("res://assets/cube.png"),
+    "cube_red": preload("res://assets/cube_red.png"),
 }
 
 static var grid_items = GridItems.init()
 
-var cube_parent = Node2D.new()
+static var cube_parent = Node2D.new()
 var time_since_last_update: float = 0.0
 var selector: Sprite2D
 
 static var box: BoxSelect
 
 func _ready():
-    var sprite = Sprite2D.new()
-    sprite.texture = ui_textures["selector"]
-    sprite.name = "CursorHighlight"
-    sprite.scale = Vector2(SCALE, SCALE)
 
+    cube_parent.name = "CubeParent"
+    cube_parent.y_sort_enabled = true
     self.add_child(cube_parent)
     create_cubes()
 
-
     box = BoxSelect.new(Vector2.ZERO)
+    box.name = "BoxSelect"
     self.add_child(box)
     box.hide()
 
     # note that the *bottom* of the node tree is the sprite that's drawn last and therefore the topmost object
-    self.add_child(sprite, true)
+    var selector_sprite = Sprite2D.new()
+    selector_sprite.texture = ui_textures["selector"]
+    selector_sprite.name = "CursorHighlight"
+    selector_sprite.scale = Vector2(SCALE, SCALE)
+    self.add_child(selector_sprite, true)
     selector = get_children()[-1]
+
+    box.z_index = 4096
+    selector.z_index = 4096
+
+
+func _on_player_ready():
+    for entity in Entities.list:
+        entity.spawn()
+
 
 func _process(_delta):
     update_cubes()
@@ -75,10 +87,10 @@ func create_cubes():
     # store them in self.grid_items for use later
     var terrain_map = TerrainMap.new()
     self.grid_items = terrain_map.generate()
-    for i in grid_items.size():
-        self.add_child(grid_items.sprites[i])
-    
-    update_cubes()
+    for i in self.grid_items.size():
+        cube_parent.add_child(self.grid_items.sprites[i])
+
+    grid_items.update_all()
 
 
 func update_cubes():
@@ -99,15 +111,6 @@ func update_box():
     box.update_end_pos(Isometry.screen_to_world_point(camera))
     var entities = Entities.get_entities_in_rect(box.start_pos, box.end_pos)
 
-    if box.is_visible():
-        for entity in entities.in:
-            entity.sprite.texture = cube_textures["full_grass_cube_corner"]
-
-        for entity in entities.not:
-            entity.sprite.texture = debug_textures["cube"] 
-    else:
-        for entity in Entities.list:
-            entity.sprite.texture = debug_textures["cube"]
 
 func _on_controls_manager_mouse_point_highlight_position(position: Vector2):
     selector.position = position
@@ -133,5 +136,7 @@ func _on_controls_select(button_down: bool):
         box.update_end_pos(Vector2.ZERO)
 
     
+
+
 
 

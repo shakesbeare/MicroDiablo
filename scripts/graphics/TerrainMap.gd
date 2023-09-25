@@ -8,6 +8,11 @@ var num_scatter_tries: int = 200
 
 var shadow_ratio: float = 0.75
 
+enum NeedsBorder {
+    Left,
+    Right,
+}
+
 func _init(seed: int = -1):
     self.noise = FastNoiseLite.new()
     self.noise.set_noise_type(FastNoiseLite.TYPE_SIMPLEX)
@@ -30,7 +35,9 @@ func generate() -> GridItems:
             var color = self.noise_image.get_pixel(i, j)
             var sprite = self.get_sprite_from_color(color)
             var height = self.get_height_from_color(color)
+            sprite.name = "GroundCube" + " " + str(i) + " " + str(j)
             grid_items.add(sprite, Vector2(i, j), height, "")
+
 
     # find stair up position
     var stair_index = find_index_for_stair(grid_items)
@@ -66,32 +73,39 @@ func generate() -> GridItems:
         if grid_items.get_cube_type(i) in [GridItems.CubeType.Water, GridItems.CubeType.StairsUp, GridItems.CubeType.StairsDown]:
             continue
 
-        # index 0 is right hand upper neighbor
-        # index 1 is left hand upper neighbor
         var upper_neighbors = grid_items.get_upper_neighbors(i)
+        var needs_border = []
 
-        # code must be duplicated here because a cube can have both a left and a right border
-        # so the code has to potentially create and define 2 separate sprites
         if grid_items.heights[upper_neighbors[0]] < grid_items.heights[i]:
-            # right
-
-            var sprite = Sprite2D.new()
-            sprite.texture = Graphics.scatter_textures["cliff_border_r"]
-            sprite.name = "Border"
-            sprite.scale = Vector2(Graphics.SCALE, Graphics.SCALE)
-
-            grid_items.add(sprite, grid_items.positions[i], grid_items.heights[i], "Border")
+            needs_border.append(NeedsBorder.Right)
+            
         if grid_items.heights[upper_neighbors[1]] < grid_items.heights[i]:
-            # left
+            needs_border.append(NeedsBorder.Left)
 
-            var sprite = Sprite2D.new()
-            sprite.texture = Graphics.scatter_textures["cliff_border_l"]
-            sprite.name = "Border"
-            sprite.scale = Vector2(Graphics.SCALE, Graphics.SCALE)
+        if needs_border == []:
+            continue
 
+        # create border sprites
+        for nb in needs_border:
+            var sprite = self.create_border_sprite(i, nb)
             grid_items.add(sprite, grid_items.positions[i], grid_items.heights[i], "Border")
+
 
     return grid_items
+
+func create_border_sprite(i: int, needs_border: NeedsBorder):
+    var sprite = Sprite2D.new()
+    match needs_border:
+        NeedsBorder.Right:
+            sprite.texture = Graphics.scatter_textures["cliff_border_r"]
+        NeedsBorder.Left:
+            sprite.texture = Graphics.scatter_textures["cliff_border_l"]
+
+    sprite.name = "Border" + " " + str(needs_border) + " " + str(i)
+    sprite.scale = Vector2(Graphics.SCALE, Graphics.SCALE)
+
+    return sprite
+
 
 func get_sprite_from_color(color: Color):
     # treat the color as a percent of total sprites available

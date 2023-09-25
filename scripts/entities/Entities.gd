@@ -3,6 +3,7 @@ extends Node
 
 
 static var list: Array[Entity]
+static var last_id = 0
 
 static func add(entity: Entity) -> void:
     list.append(entity)
@@ -26,6 +27,10 @@ static func get_entities_in_rect(top_left: Vector2, bottom_right: Vector2):
 
     return { "in": entities, "not": not_in}
 
+static func get_next_id():
+    var id = last_id
+    last_id += 1
+    return id
 
 class Entity:
     extends Node2D
@@ -36,7 +41,13 @@ class Entity:
     var grid_height: float
 
     var tags: Array[String]
+    var id: int
     
     func has_tag(tag: String) -> bool:
         return tags.find(tag) != -1
 
+    func spawn():
+        Graphics.cube_parent.add_child(self.sprite)
+
+    func move_sprite():
+        self.sprite.position = self.position
