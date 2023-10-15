@@ -40,6 +40,10 @@ static var debug_textures = {
     "cube_red": preload("res://assets/cube_red.png"),
 }
 
+static var materials = {
+    "outline": preload("res://materials/outline_material.tres"),
+}
+
 static var grid_items = GridItems.init()
 
 static var cube_parent = Node2D.new()
@@ -110,6 +114,19 @@ func update_box():
     var camera = get_tree().get_root().get_node("Node2D/Camera2D")
     box.update_end_pos(Isometry.screen_to_world_point(camera))
     var entities = Entities.get_entities_in_rect(box.start_pos, box.end_pos)
+
+    # if box is not visible, no entity should be highlighted
+    if box.visible == false:
+        for entity in Entities.list:
+            entity.sprite.material = null
+
+        return
+
+    for entity in entities["in"]: 
+        entity.sprite.material = Graphics.materials["outline"]
+
+    for entity in entities["not"]:
+        entity.sprite.material = null
 
 
 func _on_controls_manager_mouse_point_highlight_position(position: Vector2):

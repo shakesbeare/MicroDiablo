@@ -1,38 +1,38 @@
 [gd_scene load_steps=8 format=3 uid="uid://bypsyfcv0i1pr"]
 
-[ext_resource type="Script" path="res://scripts/Camera.gd" id="1_87yxm"]
-[ext_resource type="Script" path="res://scripts/Settings.gd" id="3_0ai4d"]
-[ext_resource type="Script" path="res://scripts/paths.gd" id="4_idv5t"]
-[ext_resource type="Script" path="res://scripts/Controls.gd" id="4_tvunr"]
-[ext_resource type="Script" path="res://scripts/graphics/Graphics.gd" id="4_x2pg5"]
-[ext_resource type="Script" path="res://scripts/entities/Entities.gd" id="5_k6jwh"]
-[ext_resource type="Script" path="res://scripts/entities/Player.gd" id="7_vg34m"]
+[ext_resource type="Script" path="res://scripts/Camera.gd" id="1_rq6y6"]
+[ext_resource type="Script" path="res://scripts/Settings.gd" id="2_0uxv0"]
+[ext_resource type="Script" path="res://scripts/Controls.gd" id="3_xtjok"]
+[ext_resource type="Script" path="res://scripts/paths.gd" id="4_uia07"]
+[ext_resource type="Script" path="res://scripts/entities/Entities.gd" id="5_ngn2g"]
+[ext_resource type="Script" path="res://scripts/graphics/Graphics.gd" id="6_fwj04"]
+[ext_resource type="Script" path="res://scripts/entities/Player.gd" id="7_dygwg"]
 
 [node name="Node2D" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [-981.0]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("1_87yxm")
+script = ExtResource("1_rq6y6")
 camera_x_bound = 3000
 camera_y_bound = 3100
 
 [node name="Settings" type="Node" parent="."]
-script = ExtResource("3_0ai4d")
+script = ExtResource("2_0uxv0")
 
 [node name="Controls" type="Node" parent="."]
-script = ExtResource("4_tvunr")
+script = ExtResource("3_xtjok")
 
 [node name="Pathfinding" type="Node" parent="."]
-script = ExtResource("4_idv5t")
+script = ExtResource("4_uia07")
 
 [node name="Entities" type="Node" parent="."]
-script = ExtResource("5_k6jwh")
+script = ExtResource("5_ngn2g")
 
 [node name="Graphics" type="Node" parent="."]
-script = ExtResource("4_x2pg5")
+script = ExtResource("6_fwj04")
 
 [node name="Player" type="Node" parent="."]
-script = ExtResource("7_vg34m")
+script = ExtResource("7_dygwg")
 
 [connection signal="ability_1" from="Controls" to="Player" method="_on_controls_ability_1"]
 [connection signal="ability_2" from="Controls" to="Player" method="_on_controls_ability_2"]

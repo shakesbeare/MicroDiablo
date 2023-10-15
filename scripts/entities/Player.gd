@@ -32,6 +32,8 @@ func add_controlled_unit(entity: PlayerEntity):
 class PlayerEntity:
     extends Entities.Entity
 
+    var player_scene = preload("res://player.tscn") # scenes are equivalent to prefabs in unity
+
     var move_targets: Array[Vector2]
     var target_heights: Array[float]
     var current_move_target : Vector2
@@ -51,11 +53,10 @@ class PlayerEntity:
 
         self.id = Entities.get_next_id()
 
-        var sprite_ = Sprite2D.new()
-        sprite_.texture = Graphics.debug_textures["cube"]
-        sprite_.name = "Player" + str(self.id)
-        sprite_.scale = Vector2(Graphics.SCALE, Graphics.SCALE)
-        self.sprite = sprite_
+        var instance = player_scene.instantiate()
+        self.sprite = player_scene.instantiate()
+        self.sprite.name = "Player" + str(self.id)
+        self.sprite.scale = Vector2(Graphics.SCALE, Graphics.SCALE);
 
         Entities.add(self)
         self.update_position()
