@@ -5,6 +5,7 @@ signal mouse_point_index(int)
 signal mouse_point_highlight_position(Vector2)
 
 signal select(bool)
+signal selected_entities(entities: Array[Entities.Entity])
 
 signal move_attack(bool)
 
@@ -47,10 +48,15 @@ func _input(event):
     # Other Inputs
     if event.is_action("move_attack"):
         move_attack.emit(event.is_action_pressed("move_attack"))
+
     elif event.is_action("select"):
+        
+        if event.is_action_released("select"):
+            var entities = Entities.get_entities_in_rect(Graphics.box.start_pos, Graphics.box.end_pos)
+            selected_entities.emit(entities["in"])
+
         select.emit(event.is_action_pressed("select"))
 
-        
 func mouse_point():
     # update cursor highlight position
     var camera = get_tree().get_root().get_node("Node2D/Camera2D")

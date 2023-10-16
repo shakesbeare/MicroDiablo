@@ -23,11 +23,20 @@ func _process(delta):
         entity.pathfind()
         entity.move(delta)
 
+
 func add_controlled_unit(entity: PlayerEntity):
     self.controlled_units.append(entity)
     self.selected_units.append(entity)
     self.add_child(entity)
     entity.add_child(entity.sprite)
+
+
+func _on_controls_selected_entities(entities: Array[Entities.Entity]):
+    self.selected_units.clear()
+    for entity in entities:
+        if entity.has_tag("Controllable"):
+            self.selected_units.append(entity)
+
 
 class PlayerEntity:
     extends Entities.Entity
@@ -39,7 +48,6 @@ class PlayerEntity:
     var current_move_target : Vector2
     var time_since_last_move: float = 0
     var movement_speed: int = 5
-
 
     func _init():
         self.tags.append_array(["Player", "Controllable"])
@@ -53,7 +61,6 @@ class PlayerEntity:
 
         self.id = Entities.get_next_id()
 
-        var instance = player_scene.instantiate()
         self.sprite = player_scene.instantiate()
         self.sprite.name = "Player" + str(self.id)
         self.sprite.scale = Vector2(Graphics.SCALE, Graphics.SCALE);
@@ -83,13 +90,13 @@ class PlayerEntity:
             self.time_since_last_move += delta
 
 
-
     func update_position():
         var expected_position = Isometry.get_world_coord(self.grid_position)
         var y_offset = self.grid_height * Graphics.SPRITE_DIMENSIONS.y
         self.position = expected_position - Vector2(0, y_offset)
         self.move_sprite()
         self.sprite.z_index = self.grid_height
+
 
     func pathfind():
         var points = Paths.pathfinding.FindPath(self.grid_position, self.current_move_target)
@@ -110,8 +117,6 @@ func _on_controls_move_attack(button_down: bool):
     if button_down:
         for entity in self.selected_units:
             entity.current_move_target = Graphics.grid_items.positions[self.pointed_cube]
-
-
 
 
 func _on_controls_ability_1(button_down: bool):

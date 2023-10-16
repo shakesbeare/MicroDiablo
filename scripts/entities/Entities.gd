@@ -1,7 +1,6 @@
 class_name Entities
 extends Node
 
-
 static var list: Array[Entity]
 static var last_id = 0
 
