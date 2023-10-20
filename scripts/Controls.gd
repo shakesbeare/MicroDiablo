@@ -1,6 +1,9 @@
 class_name Controls
 extends Node
 
+# ------------------------
+
+# Mouse control
 signal mouse_point_index(int)
 signal mouse_point_highlight_position(Vector2)
 
@@ -9,13 +12,26 @@ signal selected_entities(entities: Array[Entities.Entity])
 
 signal move_attack(bool)
 
+# Abilities
 signal ability_1(bool)
 signal ability_2(bool)
 signal ability_3(bool)
 signal ability_4(bool)
 
+# Control Groups
+signal group_1(bool)
+signal group_2(bool)
+signal group_3(bool)
+signal group_4(bool)
+signal group_5(bool)
+signal group_6(bool)
+
+signal queue_mod(bool)
+# ------------------------
+
 static var key_pan: Vector2 = Vector2.ZERO
 var paused: bool = false
+
 
 func _ready():
     Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
@@ -44,6 +60,25 @@ func _input(event):
             ability_3.emit(event.is_action_pressed("ability_3"))
         elif event.is_action("ability_4"):
             ability_4.emit(event.is_action_pressed("ability_4"))
+
+        elif event.is_action("group_1"):
+            group_1.emit(event.is_action_pressed("group_1"))
+        elif event.is_action("group_2"):
+            group_2.emit(event.is_action_pressed("group_2"))
+        elif event.is_action("group_3"):
+            group_3.emit(event.is_action_pressed("group_3"))
+        elif event.is_action("group_4"):
+            group_4.emit(event.is_action_pressed("group_4"))
+        elif event.is_action("group_5"):
+            group_5.emit(event.is_action_pressed("group_5"))
+        elif event.is_action("group_6"):
+            group_6.emit(event.is_action_pressed("group_6"))
+
+        elif event.is_action_pressed("queue_mod"):
+            queue_mod.emit(true)
+        elif event.is_action_released("queue_mod"):
+            queue_mod.emit(false)
+
 
     # Other Inputs
     if event.is_action("move_attack"):
