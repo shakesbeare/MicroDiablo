@@ -7,6 +7,7 @@ var controlled_units: Array[ControllableEntity] = []
 var selected_units: Array[ControllableEntity] = []
 var pointed_cube: int
 var is_queueing: bool = false
+var terrain_ready: bool = false
 
 var groups = [
     [],
@@ -17,8 +18,12 @@ var groups = [
     [],
 ]
 
+## Only create players when GridItems is populated
+func _on_graphics_terrain_ready(callback: Callable):
+    self.ready()
+    callback.call()
 
-func _ready():
+func ready():
     self.controlled_units.append_array([ControllableEntity.new(), ControllableEntity.new()])
     self.controlled_units[1].sprite.texture = Graphics.debug_textures["cube_red"]
     self.controlled_units[1].grid_position = Vector2(1, 1);
@@ -34,6 +39,9 @@ func _ready():
 
 
 func _process(delta):
+    if not terrain_ready:
+        return
+
     for entity in self.controlled_units:
 
         if entity.grid_position == entity.current_move_target:
@@ -134,4 +142,6 @@ func _on_controls_ability_4(button_down: bool):
 
 func _on_controls_queue_mod(button_down: bool):
     self.is_queueing = button_down
+
+
 

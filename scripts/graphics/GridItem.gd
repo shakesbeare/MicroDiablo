@@ -132,8 +132,8 @@ func is_cube_at_grid_pos_passable(grid_coord: Vector2) -> bool:
     var i = self.grid_position_map[grid_coord]
     return self.get_cube_passability(i) == CubePassability.Passable
 
+## Returns the 4 directly adjacent neighbors of the cube at index i
 func get_cube_neighbors(i: int) -> Array[int]:
-    """Returns the 4 directly adjacent neighbors of the cube at index i"""
     return [
         i - 1,
         i + 1,
@@ -141,8 +141,8 @@ func get_cube_neighbors(i: int) -> Array[int]:
         i + Graphics.GROUND_SIZE.x
     ]
 
+## Returns the 3 neighbors of the cube at index i that are above it
 func get_upper_neighbors(i: int) -> Array[int]:
-    """Returns the 3 neighbors of the cube at index i that are above it"""
     return [
         i - 1,
         i - Graphics.GROUND_SIZE.x ,

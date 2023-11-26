@@ -1,17 +1,17 @@
 class_name Graphics
 extends Node
 
+signal terrain_ready(callback: Callable)
 
 const SPRITE_DIMENSIONS = Vector2(32, 32)
+
 static var GROUND_SIZE = Vector2(128, 128)
 static var SCALE = 2
-
 static var cube_textures = {
     "dirt_cube_corner": preload("res://assets/dirt_cube_corner.png"),
     "grass_cube_corner": preload("res://assets/grass_cube_corner.png"),
     "full_grass_cube_corner": preload("res://assets/full_grass_cube_corner.png"),
 }
-
 static var scatter_textures = {
     "dirt_cube_corner_boulder": preload("res://assets/dirt_cube_corner_boulder.png"),
     "grass_cube_corner_leaf": preload("res://assets/grass_cube_corner_leaf.png"),
@@ -20,40 +20,32 @@ static var scatter_textures = {
     "cliff_border_r": preload("res://assets/cliff_border_r.png"),
     "cliff_border_l": preload("res://assets/cliff_border_l.png"),
 }
-
 static var entity_textures = {
     "guydude": preload("res://assets/guydude.png")
 }
-
 static var stair_textures = {
     "up": preload("res://assets/stairs_up.png"),
     "down": preload("res://assets/stairs_down.png"),
 }
-
 static var ui_textures = {
     "selector": preload("res://assets/selector.png"),
     "selector_selected": preload("res://assets/selector_selected.png")
 }
-
 static var debug_textures = {
     "cube": preload("res://assets/cube.png"),
     "cube_red": preload("res://assets/cube_red.png"),
 }
-
 static var materials = {
     "outline": preload("res://materials/outline_material.tres"),
 }
-
 static var grid_items = GridItems.init()
-
 static var cube_parent = Node2D.new()
+static var box: BoxSelect
+
 var time_since_last_update: float = 0.0
 var selector: Sprite2D
 
-static var box: BoxSelect
-
 func _ready():
-
     cube_parent.name = "CubeParent"
     cube_parent.y_sort_enabled = true
     self.add_child(cube_parent)
@@ -75,29 +67,30 @@ func _ready():
     box.z_index = 4096
     selector.z_index = 4096
 
+    terrain_ready.emit(on_player_ready)
 
-func _on_player_ready():
+
+func on_player_ready():
     for entity in Entities.list:
         entity.spawn()
 
 
 func _process(_delta):
-    update_cubes()
+    update_cube_sprites()
     update_box()
 
 
 func create_cubes():
     # create a bunch of grid_items to form the terrain out of
     # store them in self.grid_items for use later
-    var terrain_map = TerrainMap.new()
-    self.grid_items = terrain_map.generate()
+    self.grid_items = GridItemBuilder.new().default().build()
     for i in self.grid_items.size():
         cube_parent.add_child(self.grid_items.sprites[i])
 
     grid_items.update_all()
 
 
-func update_cubes():
+func update_cube_sprites():
     # update each cube's position to it's stored position internally
     # note: to animate grid_items, update their internal stored position
     var i = grid_items.update_queue.pop_back()
