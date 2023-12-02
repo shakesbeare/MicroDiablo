@@ -9,7 +9,7 @@ var advList = []
 var gearList = []
 var itemList = []
 
-var gearDisplay = load("res://gear_instance.tscn")
+var gearDisplay = load("res://scenes/gear_instance.tscn")
 var helm = load("res://InventoryItems/GearStuff/Helmet.gd")
 
 @onready var gold_display = get_node("ColorRect/goldDisplay")

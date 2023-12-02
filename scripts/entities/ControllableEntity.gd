@@ -2,7 +2,7 @@
 class_name ControllableEntity
 extends Entities.Entity
 
-var player_scene = preload("res://player.tscn")  # scenes are equivalent to prefabs in unity
+var player_scene = preload("res://scenes/player.tscn")  # scenes are equivalent to prefabs in unity
 
 var move_targets: Array[Vector2]
 var target_heights: Array[float]
