@@ -24,7 +24,7 @@ func _init(map_seed: int = -1):
 	else:
 		self.noise.set_seed(map_seed)
 
-	grid_items = GridItems.new()
+	grid_items = GridItems.init()
 	rng = RandomNumberGenerator.new()
 
 
