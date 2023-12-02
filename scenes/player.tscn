@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckashidr4f2f5"]
+[gd_scene load_steps=3 format=3 uid="uid://cqt7gkf3f1aci"]
 
 [ext_resource type="Material" uid="uid://cay8t8uei184d" path="res://materials/outline_material.tres" id="1_ruujs"]
 [ext_resource type="Texture2D" uid="uid://dqfljncm88b8i" path="res://assets/cube.png" id="2_a8dxr"]

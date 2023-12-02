@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bftrgi88br0wt"]
+[gd_scene load_steps=8 format=3 uid="uid://bypsyfcv0i1pr"]
 
 [ext_resource type="Script" path="res://scripts/Camera.gd" id="1_rq6y6"]
 [ext_resource type="Script" path="res://scripts/Settings.gd" id="2_0uxv0"]
