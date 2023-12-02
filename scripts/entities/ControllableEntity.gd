@@ -13,7 +13,7 @@ var queued_actions: Array[Action]
 
 
 func _init():
-	self.tags.append_array(["Player", "Controllable"])
+	self.tags.append_array(["Controllable"])
 
 	self.grid_position = Vector2.ZERO
 	self.grid_height = Graphics.grid_items.heights[0] + 1
@@ -25,7 +25,7 @@ func _init():
 	self.id = Entities.get_next_id()
 
 	self.sprite = player_scene.instantiate()
-	self.sprite.name = "Player" + str(self.id)
+	self.sprite.name = "ControllableEntity" + str(self.id)
 	self.sprite.scale = Vector2(Graphics.SCALE, Graphics.SCALE)
 
 	Entities.add(self)
@@ -59,7 +59,7 @@ func update_position():
 	var y_offset = self.grid_height * Graphics.SPRITE_DIMENSIONS.y
 	self.position = expected_position - Vector2(0, y_offset)
 	self.move_sprite()
-	self.sprite.z_index = self.grid_height
+	self.sprite.z_index = int(self.grid_height)
 
 
 func pathfind():

@@ -119,6 +119,7 @@ func update_all():
 
 
 func get_cube_type(i: int) -> CubeType:
+    # TODO: More robust way to do this
 	if self.sprites[i].texture.load_path.contains("grass"):
 		return CubeType.Grass
 	elif self.sprites[i].texture.load_path.contains("dirt"):
