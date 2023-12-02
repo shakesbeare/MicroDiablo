@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6vqu1shupc85"]
+
+[ext_resource type="Script" path="res://GearInstanceDisplay.gd" id="1_36y8h"]
+
+[node name="GearInstance" type="ColorRect"]
+custom_minimum_size = Vector2(200, 50)
+color = Color(0.380392, 0.380392, 0.380392, 1)
+script = ExtResource("1_36y8h")
+
+[node name="dataContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 375.0
+offset_bottom = 56.0
+
+[node name="NameLabel" type="Label" parent="dataContainer"]
+layout_mode = 2
+text = "GearName"
+
+[node name="StatsContainer" type="VBoxContainer" parent="dataContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Stat1Container" type="HBoxContainer" parent="dataContainer/StatsContainer"]
+layout_mode = 2
+
+[node name="Stat1" type="Label" parent="dataContainer/StatsContainer/Stat1Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Stat1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stat1Data" type="Label" parent="dataContainer/StatsContainer/Stat1Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Stat amount"
+
+[node name="Stat2Container" type="HBoxContainer" parent="dataContainer/StatsContainer"]
+layout_mode = 2
+
+[node name="Stat2" type="Label" parent="dataContainer/StatsContainer/Stat2Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "stat2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stat2Data" type="Label" parent="dataContainer/StatsContainer/Stat2Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "stat2"

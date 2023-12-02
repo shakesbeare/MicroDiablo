@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=3 uid="uid://8utaemvgcxtm"]
+
+[ext_resource type="Script" path="res://AdventurerScripts/Adventurer.gd" id="1_iqw1w"]
+[ext_resource type="Script" path="res://PlayerInventory.gd" id="2_3gflx"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AdventurerNode" type="Node" parent="."]
+script = ExtResource("1_iqw1w")
+
+[node name="PlayerInventory" type="Node" parent="."]
+script = ExtResource("2_3gflx")
+
+[node name="ColorRect" type="ColorRect" parent="PlayerInventory"]
+offset_left = 203.0
+offset_top = 51.0
+offset_right = 1734.0
+offset_bottom = 236.0
+color = Color(0, 0, 0, 1)
+
+[node name="Gold" type="Label" parent="PlayerInventory/ColorRect"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 14.0
+offset_right = 73.0
+offset_bottom = 40.0
+text = "Gold:"
+
+[node name="goldDisplay" type="Label" parent="PlayerInventory/ColorRect"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 13.0
+offset_right = 132.0
+offset_bottom = 39.0
+text = "Gold:"
+
+[node name="AddGoldButton" type="Button" parent="PlayerInventory/ColorRect"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 56.0
+offset_right = 93.0
+offset_bottom = 91.0
+text = "Add Gold"
+
+[node name="SpendGoldButton" type="Button" parent="PlayerInventory/ColorRect"]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 59.0
+offset_right = 203.0
+offset_bottom = 94.0
+text = "spend 15 Gold"
+
+[node name="GearScrollContainer" type="ScrollContainer" parent="PlayerInventory/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 289.0
+offset_top = -2.0
+offset_right = 665.0
+offset_bottom = 183.0
+
+[node name="GearVBox" type="VBoxContainer" parent="PlayerInventory/ColorRect/GearScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GenerateGearButton" type="Button" parent="PlayerInventory/ColorRect"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 108.0
+offset_right = 155.0
+offset_bottom = 157.0
+text = "Generate Gear"
+
+[connection signal="pressed" from="PlayerInventory/ColorRect/AddGoldButton" to="PlayerInventory" method="_on_button_pressed"]
+[connection signal="pressed" from="PlayerInventory/ColorRect/SpendGoldButton" to="PlayerInventory" method="_on_spend_gold_button_pressed"]
+[connection signal="pressed" from="PlayerInventory/ColorRect/GenerateGearButton" to="PlayerInventory" method="_on_generate_gear_button_pressed"]
