@@ -178,7 +178,7 @@ func add_cliffs() -> GridItemBuilder:
 		for nb in needs_border:
 			var sprite = self._create_border_sprite(i, nb)
 			grid_items.add(
-				sprite, grid_items.positions[i], grid_items.heights[i], "Border"
+				sprite, grid_items.positions[i], grid_items.heights[i], "Border", true
 			)
 
 	return self

@@ -51,4 +51,5 @@ script = ExtResource("7_dygwg")
 [connection signal="queue_mod" from="Controls" to="Player" method="_on_controls_queue_mod"]
 [connection signal="select" from="Controls" to="Graphics" method="_on_controls_select"]
 [connection signal="selected_entities" from="Controls" to="Player" method="_on_controls_selected_entities"]
+[connection signal="terrain_ready" from="Graphics" to="Pathfinding" method="_on_graphics_terrain_ready"]
 [connection signal="terrain_ready" from="Graphics" to="Player" method="_on_graphics_terrain_ready"]
